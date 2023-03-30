@@ -1,0 +1,63 @@
+package testngpkg;
+
+import java.util.Set;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class windowshandler {
+
+	WebDriver driver;
+	
+	@BeforeTest
+	public void bfrtest()
+	{
+		WebDriverManager.chromedriver().setup();
+		 driver =new ChromeDriver();
+		 driver.get("https://demo.guru99.com/popup.php");
+	}
+	@Test
+	public void test1()
+	
+	{
+		String parentwindow=driver.getWindowHandle();//parent windows details ann idhilekk store cheydh vechekunadh
+		driver.findElement(By.xpath("/html/body/p/a")).click();
+		
+		
+		Set<String> secondwindowhandles =driver.getWindowHandles();
+		
+		
+		
+		for(String handle: secondwindowhandles ) {
+			//System.out.println(handle);
+			if(!handle.equalsIgnoreCase(parentwindow)) {
+			driver.switchTo().window(handle);
+			
+			driver.findElement(By.xpath("/html/body/form/table/tbody/tr[5]/td[2]/input")).sendKeys("gt143@gmail.com");
+			
+			
+			driver.findElement(By.xpath("/html/body/form/table/tbody/tr[6]/td[2]/input")).click();
+			}
+			
+			
+			//driver.close();
+		
+		}
+		driver.switchTo().window(parentwindow);
+	}
+}
+
+	
+	
+	
+	
+	
+	
+	
+	
